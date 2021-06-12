@@ -14,7 +14,8 @@
     DateTime: <input type="datetime-local" name="dateTime" value="${meal.dateTime}"><br><br>
     Description: <input type="text" name="description" value="${meal.description}"><br><br>
     Calories: <input type="number" name="calories" value="${meal.calories}"><br><br>
-    <input type="submit" value="${param.action=="create"? "Create": "Update"}">
+    <button type="submit">${param.action=="create"? "Create": "Update"}</button>
+    <button onclick="window.history.back()" type="button">Cancel</button>
 </form>
 </body>
 </html>
