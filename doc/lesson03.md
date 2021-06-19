@@ -119,7 +119,7 @@ CREATE DATABASE topjava;
 CREATE USER "user" WITH password 'password';
 GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 ```
--  <a href="http://alexander.holbreich.org/2013/03/nosql-or-rdbms/">NoSQL or RDBMS.</a> <a href="http://habrahabr.ru/post/77909/">Обзор NoSQL систем</a>. <a href="http://blog.nahurst.com/visual-guide-to-nosql-systems">CAP</a>
+-  <a href="http://habrahabr.ru/post/77909/">Обзор NoSQL систем</a>. <a href="http://blog.nahurst.com/visual-guide-to-nosql-systems">CAP</a>
 -  <a href="http://db-engines.com/en/ranking">DB-Engines Ranking</a>
 -  <a href="http://ru.wikipedia.org/wiki/Java_Database_Connectivity">JDBC</a>
 -  Обзор Java persistence solution без ORM: <a href="http://commons.apache.org/proper/commons-dbutils/">commons-dbutils</a>,
