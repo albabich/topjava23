@@ -1,3 +1,6 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5f6666f827ae4fe2b8837a4a2c30e8ab)](https://www.codacy.com/gh/albabich/topjava23/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=albabich/topjava23&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://api.travis-ci.com/JavaWebinar/topjava.svg?branch=master)](https://travis-ci.com/JavaWebinar/topjava)
+
 Java Enterprise Online Project
 ===============================
 
