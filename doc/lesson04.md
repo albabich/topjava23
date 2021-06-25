@@ -24,6 +24,10 @@
 - [Оптимизация запросов. Часть 3](https://habrahabr.ru/post/203484/)
 - [Документация Postgres: индексы](https://postgrespro.ru/docs/postgresql/9.6/indexes.html)
 
+## ![hw](https://cloud.githubusercontent.com/assets/13649199/13672719/09593080-e6e7-11e5-81d1-5cb629c438ca.png) Разбор домашнего задания HW3
+
+### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 2. [HW03 Optional: Meals tests](https://drive.google.com/file/d/1RfO0Irz8ayw2ivnjffUol20BQrKpu-jg)
+
 #### **Apply 4_2_HW3_optional.patch**
 > Убрал `throws Exception` из тестов. IDEA по умолчанию перестала их добавлять.
 > В `MealServiceTest.updateNotOwn` добавил дополнительную проверку, что еда в тесте не модифицировалась.
