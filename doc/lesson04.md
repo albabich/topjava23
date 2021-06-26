@@ -86,6 +86,8 @@
 #### **Apply 4_8_add_jpa.patch**
 > - **[Настройка JPA в IDEA](https://github.com/JavaOPs/topjava/wiki/IDEA#jpa).   
 ПРОВЕРЬТЕ, что у вас не подтянулись Java EE 6 libraries, все зависимости в проект попадают только через Maven! Перед настройкой сначала подтяните его зависимости**
+> - `indexes` и `uniqueConstraints` в Entities (у нас `User`) используются только при создании таблицы средствами JPA (автогенерации БД при запуске приложения).
+ В случае, если таблицы создаются скриптом, эти опции будут проигнорированы. У нас они дублируют ограничения в `initDB.sql` и будут использоваться, когда мы будем смотреть на автогенерацию DDL по модели на 7-м занятии. 
 > - Тесты и приложение ломаются. `MealServiceTest` починится после выполнения HW04 (`JpaMealRepository`)
 > - Если вы используете Java 9 и выше, то возникают проблемы с `JAXBException` (пакет `java.xml.bind`). [См. решение](https://www.concretepage.com/forum/thread?qid=531)
 - Дополнительно:
@@ -118,7 +120,7 @@
 -  <a href="http://habrahabr.ru/post/232381/">`@Transactional` в тестах. Настройка EntityManagerFactory</a>
 
 > ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png)  Зачем надо начинать транзакцию, если речь идет только о чтении данных? Начало транзакции при выполнении операции чтения всего лишь добавит лишних накладных расходов 
-(см. [Стратегии работы с транзакциями, pаспространенные ошибки](https://www.ibm.com/developerworks/ru/library/j-ts1/index.html))
+(см. [Стратегии работы с транзакциями, pаспространенные ошибки](http://web.archive.org/web/20170314073834/https://www.ibm.com/developerworks/ru/library/j-ts1/index.html))
 
 Вот ответ от Oliver Drotbohm, автора Spring-Data на предложение работать без транзакций для операций чтения (`propagation=Propagation.SUPPORTS`): [Improve performance with Propagation.SUPPORTS for readOnly operation](https://jira.spring.io/browse/DATAJPA-601). Коротко:
 - Статья устаревшая и неверно упрощает многие вещи. Есть множество вещей, которые влияют на производительность
