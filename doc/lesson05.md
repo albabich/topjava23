@@ -208,7 +208,13 @@
 - 3: В `MealServlet/SpringMain` в момент `setActiveProfiles` контекст спринга еще не должен быть инициализирован, иначе выставление профиля уже ни на что не повлияет.
 Уметь пользоваться гугл для разработчика, это умение №1. Если застряли- попробуйте например слова: `spring context set profile`
 - 4: Если у метода нет реализации, то стандартно бросается `UnsupportedOperationException`. Для уменьшения количества кода при реализации _Optional_ (п. 7, только `DataJpa`) попробуйте сделать `default` метод в интерфейсе.
-- 5: В Data-Jpa метод для ссылки на entity (аналог `em.getReference`) - `T getOne(ID id)`
+- 5: В Data-Jpa метод для ссылки на entity (аналог `em.getReference`) - `T getOne(ID id)`  
+
+PS: В последней версии `spring-data-jpa` метод `getOne` объявлен как `@Deprecated`, хотя по умолчанию Hibernate экономит обращение к базе. Из javadoc к `org.hibernate.cfg.AvailableSettings#JPA_PROXY_COMPLIANCE`:  
+> Traditionally, Hibernate does not initialize an entity Proxy when accessing its identifier since we already know the identifier value, hence we can save a database roundtrip.  
+
+Поэтому я полагаю, что этот аналог `em.getReference` для нас - верный выбор.
+
 - 6: Проверьте, что в `DataJpaMealRepository` все обращения к DB для одной операции выполняются в **одной транзакции**.
 - 7: Для 7.1 `достать по id пользователя вместе с его едой` я в `User` добавил `List<Meal> meals`. Учесть, что у юзера может отсутствовать еда. [Ordering a join fetched collection in JPA using JPQL/HQL](http://stackoverflow.com/questions/5903774/ordering-a-join-fetched-collection-in-jpa-using-jpql-hql)
 - 8: Проверьте, что все тесты запускаются из Maven (имена классов тестов удовлетворяют соглашению) и итоги тестов класса выводятся корректно (не копятся). По умолчанию [maven-surefire-plugin](http://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html) включает в тесты классы, заканчивающиеся на Test.
