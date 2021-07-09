@@ -99,7 +99,7 @@ Cамое простое - поставить брекпойнт в констр
 - [JPA `cascade/orphanRemoval` doesn't work with `NamedQuery`](http://stackoverflow.com/questions/7825484/jpa-delete-where-does-not-delete-children-and-throws-an-exception)
 
 #### Auto schema generation
-- <a href="http://www.radcortez.com/jpa-database-schema-generation/">JPA DATABASE SCHEMA GENERATION</a>
+- <a href="https://www.javacodegeeks.com/2015/03/jpa-database-schema-generation.html">JPA DATABASE SCHEMA GENERATION</a>
 - <a href="http://stackoverflow.com/questions/7793395">hbm2ddl.auto and autoincrement</a>
 - <a href="http://stackoverflow.com/questions/2585641">Hibernate/JPA DB Schema Generation Best Practices</a>
 
