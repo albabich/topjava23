@@ -40,10 +40,4 @@ public class DateTimeUtil {
     LocalTime parseLocalTime(@Nullable String str) {
         return StringUtils.hasLength(str) ? LocalTime.parse(str) : null;
     }
-
-    public static @Nullable
-    LocalDateTime parseLocalDateTime(@Nullable String str) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return StringUtils.hasLength(str) ? LocalDateTime.parse(str, formatter) : null;
-    }
 }
