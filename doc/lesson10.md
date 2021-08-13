@@ -6,7 +6,7 @@
 
 #### Apply 10_0_fix.patch
 
-- Поправил имена html аттрибутов на [low-case через дефисы](https://stackoverflow.com/questions/41465852/548473)
+- Поправил имена html аттрибутов на [low-case через дефисы](https://stackoverflow.com/questions/36176474/548473)
 - Добавил [CASCADE на стороне @OneToMany](https://stackoverflow.com/a/44988100/548473). Это имеет значение, если мы будем генерировать таблицы из кода.
 - Правки тестов
 
