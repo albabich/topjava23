@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,7 +42,7 @@ public class AdminRestController extends AbstractUserController {
                     .buildAndExpand(created.getId()).toUri();
             return ResponseEntity.created(uriOfNewResource).body(created);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_USER_DUPLICATE_EMAIL, null, Locale.getDefault()));
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_USER_DUPLICATE_EMAIL, null, LocaleContextHolder.getLocale()));
         }
     }
 
@@ -59,7 +60,7 @@ public class AdminRestController extends AbstractUserController {
         try {
             super.update(user, id);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_USER_DUPLICATE_EMAIL, null, Locale.getDefault()));
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_USER_DUPLICATE_EMAIL, null, LocaleContextHolder.getLocale()));
         }
     }
 

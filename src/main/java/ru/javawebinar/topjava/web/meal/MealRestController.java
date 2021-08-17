@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,7 +50,7 @@ public class MealRestController extends AbstractMealController {
         try {
             super.update(meal, id);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, null, Locale.getDefault()));
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, null, LocaleContextHolder.getLocale()));
         }
     }
 
@@ -64,7 +65,7 @@ public class MealRestController extends AbstractMealController {
 
             return ResponseEntity.created(uriOfNewResource).body(created);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, null, Locale.getDefault()));
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, null, LocaleContextHolder.getLocale()));
         }
     }
 
