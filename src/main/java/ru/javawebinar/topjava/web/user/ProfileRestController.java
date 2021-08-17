@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.ErrorInfo;
-import ru.javawebinar.topjava.util.exception.ErrorType;
-import ru.javawebinar.topjava.web.ExceptionInfoHandler;
+import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Locale;
 
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
@@ -38,23 +35,24 @@ public class ProfileRestController extends AbstractUserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
-        User created = super.create(userTo);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL).build().toUri();
-        return ResponseEntity.created(uriOfNewResource).body(created);
+        try {
+            User created = super.create(userTo);
+            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path(REST_URL).build().toUri();
+            return ResponseEntity.created(uriOfNewResource).body(created);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_USER_DUPLICATE_EMAIL, null, Locale.getDefault()));
+        }
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody UserTo userTo) {
-        super.update(userTo, authUserId());
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorInfo> duplicateEmailException(HttpServletRequest req, DataIntegrityViolationException e) {
-        ErrorInfo errorInfo = ExceptionInfoHandler.logAndGetErrorInfo(req, e, true, ErrorType.DATA_ERROR,
-                ValidationUtil.getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource));
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorInfo);
+        try {
+            super.update(userTo, authUserId());
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_USER_DUPLICATE_EMAIL, null, Locale.getDefault()));
+        }
     }
 
     @GetMapping("/text")

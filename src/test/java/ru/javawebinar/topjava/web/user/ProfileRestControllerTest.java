@@ -109,7 +109,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
                 .andDo(print())
-                .andExpect(status().isConflict())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource))));
     }
 
@@ -121,7 +121,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
-                .andExpect(status().isConflict())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource))));
     }
 
