@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.time.Month;
+
+import static java.time.LocalDateTime.of;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,6 +28,8 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 import static ru.javawebinar.topjava.UserTestData.user;
 import static ru.javawebinar.topjava.util.MealsUtil.createTo;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
+import static ru.javawebinar.topjava.util.ValidationUtil.getLocalizedMessage;
+import static ru.javawebinar.topjava.web.meal.AbstractMealController.EXCEPTION_MEAL_DUPLICATE_DATE_TIME;
 
 class MealRestControllerTest extends AbstractControllerTest {
 
@@ -72,12 +80,24 @@ class MealRestControllerTest extends AbstractControllerTest {
     @Test
     void update() throws Exception {
         Meal updated = getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID).contentType(MediaType.APPLICATION_JSON)
+        perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
 
         MATCHER.assertMatch(mealService.get(MEAL1_ID, USER_ID), updated);
+    }
+
+    @Test
+    void updateInvalid() throws Exception {
+        Meal updated = getUpdated();
+        updated.setDescription("");
+        perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(user))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -93,6 +113,43 @@ class MealRestControllerTest extends AbstractControllerTest {
         newMeal.setId(newId);
         MATCHER.assertMatch(created, newMeal);
         MATCHER.assertMatch(mealService.get(newId, USER_ID), newMeal);
+    }
+
+    @Test
+    void createInvalid() throws Exception {
+        Meal newMeal = getNew();
+        newMeal.setCalories(9);
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(user))
+                .content(JsonUtil.writeValue(newMeal)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    void createWithDoubleDateTime() throws Exception {
+        Meal newMeal = getNew();
+        newMeal.setDateTime(of(2020, Month.JANUARY, 30, 13, 0));
+        perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(user))
+                .content(JsonUtil.writeValue(newMeal)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, messageSource))));
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    void updateWithDoubleDateTime() throws Exception {
+        Meal updated = getUpdated();
+        updated.setDateTime(of(2020, Month.JANUARY, 30, 20, 0));
+        perform(MockMvcRequestBuilders.put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(user))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, messageSource))));
     }
 
     @Test

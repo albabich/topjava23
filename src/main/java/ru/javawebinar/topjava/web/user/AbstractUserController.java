@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
@@ -14,7 +15,11 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 public abstract class AbstractUserController {
+    protected static final String EXCEPTION_USER_DUPLICATE_EMAIL = "exception.user.duplicateEmail";
     protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    MessageSource messageSource;
 
     @Autowired
     private UserService service;
