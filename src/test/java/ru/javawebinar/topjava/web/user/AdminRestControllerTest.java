@@ -11,7 +11,6 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
-import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -21,8 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
-import static ru.javawebinar.topjava.util.ValidationUtil.getLocalizedMessage;
-import static ru.javawebinar.topjava.web.user.AbstractUserController.EXCEPTION_USER_DUPLICATE_EMAIL;
+import static ru.javawebinar.topjava.web.user.AbstractUserController.getDuplicateEmailMessage;
 
 class AdminRestControllerTest extends AbstractControllerTest {
 
@@ -148,7 +146,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin))
                 .content(jsonWithPassword(newUser, "newPass")))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource))));
+                .andExpect(content().string(containsString(getDuplicateEmailMessage())));
     }
 
     @Test
@@ -161,7 +159,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin))
                 .content(jsonWithPassword(updated, "newPass")))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource))));
+                .andExpect(content().string(containsString(getDuplicateEmailMessage())));
     }
 
     @Test

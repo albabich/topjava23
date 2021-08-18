@@ -3,7 +3,8 @@ package ru.javawebinar.topjava.web.meal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.lang.Nullable;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
@@ -20,13 +21,17 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 public abstract class AbstractMealController {
     private final Logger log = LoggerFactory.getLogger(getClass());
-    protected static final String EXCEPTION_MEAL_DUPLICATE_DATE_TIME = "exception.meal.duplicateDateTime";
+    public static final String MEAL_DUPLICATE_DATE_TIME_MESSAGE_CODE = "exception.meal.duplicateDateTime";
 
     @Autowired
     private MealService service;
 
+    public static MessageSourceAccessor messageSource;
+
     @Autowired
-    MessageSource messageSource;
+    public void setMessageSourceAccessor(MessageSourceAccessor messageSource) {
+        this.messageSource = messageSource;
+    }
 
     public Meal get(int id) {
         int userId = SecurityUtil.authUserId();
@@ -73,5 +78,9 @@ public abstract class AbstractMealController {
 
         List<Meal> mealsDateFiltered = service.getBetweenInclusive(startDate, endDate, userId);
         return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
+    }
+
+    public static String getDuplicateDateTimeMessage() {
+        return messageSource.getMessage(MEAL_DUPLICATE_DATE_TIME_MESSAGE_CODE, LocaleContextHolder.getLocale());
     }
 }

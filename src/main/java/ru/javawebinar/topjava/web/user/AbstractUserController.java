@@ -3,7 +3,8 @@ package ru.javawebinar.topjava.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.MessageSourceAccessor;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
@@ -15,11 +16,15 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 public abstract class AbstractUserController {
-    protected static final String EXCEPTION_USER_DUPLICATE_EMAIL = "exception.user.duplicateEmail";
+    public static final String USER_DUPLICATE_EMAIL_MESSAGE_CODE = "exception.user.duplicateEmail";
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
+    public static MessageSourceAccessor messageSource;
+
     @Autowired
-    MessageSource messageSource;
+    public void setMessageSourceAccessor(MessageSourceAccessor messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @Autowired
     private UserService service;
@@ -76,5 +81,9 @@ public abstract class AbstractUserController {
     public void enable(int id, boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
         service.enable(id, enabled);
+    }
+
+    public static String getDuplicateEmailMessage() {
+        return messageSource.getMessage(USER_DUPLICATE_EMAIL_MESSAGE_CODE, LocaleContextHolder.getLocale());
     }
 }

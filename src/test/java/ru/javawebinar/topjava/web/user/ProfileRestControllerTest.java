@@ -20,8 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
-import static ru.javawebinar.topjava.util.ValidationUtil.getLocalizedMessage;
-import static ru.javawebinar.topjava.web.user.AbstractUserController.EXCEPTION_USER_DUPLICATE_EMAIL;
+import static ru.javawebinar.topjava.web.user.AbstractUserController.getDuplicateEmailMessage;
 import static ru.javawebinar.topjava.web.user.ProfileRestController.REST_URL;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
@@ -110,7 +109,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newTo)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource))));
+                .andExpect(content().string(containsString(getDuplicateEmailMessage())));
     }
 
     @Test
@@ -122,7 +121,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_USER_DUPLICATE_EMAIL, messageSource))));
+                .andExpect(content().string(containsString(getDuplicateEmailMessage())));
     }
 
     @Test

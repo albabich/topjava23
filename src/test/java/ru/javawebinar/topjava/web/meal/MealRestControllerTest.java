@@ -28,8 +28,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 import static ru.javawebinar.topjava.UserTestData.user;
 import static ru.javawebinar.topjava.util.MealsUtil.createTo;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
-import static ru.javawebinar.topjava.util.ValidationUtil.getLocalizedMessage;
-import static ru.javawebinar.topjava.web.meal.AbstractMealController.EXCEPTION_MEAL_DUPLICATE_DATE_TIME;
+import static ru.javawebinar.topjava.web.meal.AbstractMealController.getDuplicateDateTimeMessage;
 
 class MealRestControllerTest extends AbstractControllerTest {
 
@@ -136,7 +135,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(newMeal)))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, messageSource))));
+                .andExpect(content().string(containsString(getDuplicateDateTimeMessage())));
     }
 
     @Test
@@ -149,7 +148,7 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(user))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().string(containsString(getLocalizedMessage(EXCEPTION_MEAL_DUPLICATE_DATE_TIME, messageSource))));
+                .andExpect(content().string(containsString(getDuplicateDateTimeMessage())));
     }
 
     @Test

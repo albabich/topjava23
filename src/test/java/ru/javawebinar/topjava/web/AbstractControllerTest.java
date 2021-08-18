@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.junit.jupiter.api.Assumptions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -38,7 +38,7 @@ public abstract class AbstractControllerTest {
     public Environment env;
 
     @Autowired
-    protected MessageSource messageSource;
+    protected MessageSourceAccessor messageSource;
 
     static {
         CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");

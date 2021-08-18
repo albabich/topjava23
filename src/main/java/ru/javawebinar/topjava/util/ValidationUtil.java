@@ -75,8 +75,4 @@ public class ValidationUtil {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);
         return rootCause != null ? rootCause : t;
     }
-
-    public static String getLocalizedMessage(String code, MessageSource messageSource) {
-        return messageSource.getMessage(code, null, Locale.getDefault());
-    }
 }
