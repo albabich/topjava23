@@ -511,8 +511,7 @@ Spring MVC предоставляет возможность стандартн�
     - [Internationalization](https://terasolunaorg.github.io/guideline/5.0.x/en/ArchitectureInDetail/Internationalization.html)
     - <a href="http://www.mkyong.com/spring-mvc/spring-mvc-internationalization-example">Spring MVC internationalization sample</a>
     - <a href="https://www.concretepage.com/spring-4/spring-mvc-internationalization-localization">Spring 4 MVC Internationalization</a>
-- 6: Починить UTF-8 в редактировании профиля и регистрации (если кодировка по умолчанию у вас не UTF-8). Подумайте, почему кодировка поломалась.
-
+- 6: Починить UTF-8 в редактировании профиля и регистрации, если кодировка по умолчанию у вас не UTF-8 - в форме регистрации введи юзера с русским именем и посмотри на него.
 -------
 
 ## ![error](https://cloud.githubusercontent.com/assets/13649199/13672935/ef09ec1e-e6e7-11e5-9f79-d1641c05cbe6.png) Типичные ошибки и подсказки по реализации
