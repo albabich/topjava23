@@ -192,7 +192,7 @@ Spring позволяет получить доступ к авторизова�
 - <a href="https://forum.antichat.ru/threads/20140/">XSS для новичков</a>
 - <a href="https://habrahabr.ru/post/66057/">XSS глазами злоумышленника</a>
 
-Раньше я [реализовывал XSS защиту через `@SafeHtml`](https://stackoverflow.com/a/40644276/548473), пока его не [удалили из hibernate validator](https://hibernate.org/validator/releases/).
+Раньше я [реализовывал XSS защиту через `@SafeHtml`](https://stackoverflow.com/a/40644276/548473), пока его не [удалили из hibernate validator](https://hibernate.org/validator/documentation/migration-guide/).
 Пришлось сделать собственную аннотацию `@NoHtml` на основе [Sanitizing User Input](https://thoughtfulsoftware.wordpress.com/2013/05/26/sanitizing-user-input-part-ii-validation-with-spring-rest/)
   и [jsoup - Sanitize HTML](https://www.tutorialspoint.com/jsoup/jsoup_sanitize_html.htm)
 Все классы, относящиеся к валидации перенес в пакет `ru.javawebinar.topjava.util.validation`
