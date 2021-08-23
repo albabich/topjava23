@@ -1,4 +1,4 @@
-# Стажировкаа <a href="https://github.com/JavaWebinar/topjava">TopJava</a>
+# Стажировка <a href="https://github.com/JavaWebinar/topjava">TopJava</a>
 
 ## [Материалы занятия](https://drive.google.com/open?id=0B9Ye2auQ_NsFfk43cG91Yk9pM3JxUHVhNFVVdHlxSlJtZm5oY3A4YXRtNk1KWEZxRlFNeW8)
 
